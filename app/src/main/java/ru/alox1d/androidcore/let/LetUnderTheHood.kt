@@ -5,7 +5,9 @@ fun main() {
     println()
     LetUnderTheHood().doSomeAwesomePrintSameResult()
     println()
-    LetUnderTheHood().doSomeAwesomePrintSameSolution()
+    LetUnderTheHood().doSomeAwesomePrintSolution()
+    println()
+    LetUnderTheHood().myApplyIf()
 }
 
 class LetUnderTheHood {
@@ -28,6 +30,8 @@ class LetUnderTheHood {
             val a = awesomeVar2?.let {
                 println("awesome print 1")
             } // this "let" returns null
+
+            // Same as: return@let a
             println("awesomeVar2 = $awesomeVar2")
             a
         } ?: run {
@@ -35,7 +39,7 @@ class LetUnderTheHood {
         }
     }
 
-    fun doSomeAwesomePrintSameSolution() {
+    fun doSomeAwesomePrintSolution() {
         awesomeVar1?.apply {
             val a = awesomeVar2?.let {
                 println("awesome print 1")
@@ -44,6 +48,12 @@ class LetUnderTheHood {
             a
         } ?: run {
             println("awesome print 2")
+        }
+    }
+
+    fun myApplyIf() {
+        awesomeVar1.myApplyIf(awesomeVar2.isNullOrBlank()) {
+            println(this)
         }
     }
 }
