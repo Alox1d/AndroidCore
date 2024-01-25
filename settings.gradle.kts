@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android Core"
 include(":app")
- 
+include(":handler_and_looper")
