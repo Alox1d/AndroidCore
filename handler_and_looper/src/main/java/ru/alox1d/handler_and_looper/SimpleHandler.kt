@@ -18,11 +18,14 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.locks.ReentrantLock
 
 class SimpleHandler : Thread(TAG) {
 
     private val alive = AtomicBoolean(true)
     private val taskQueue = ConcurrentLinkedQueue<Runnable>()
+    private val lock = ReentrantLock()
+    private val condition = lock.newCondition()
 
     init {
         start()
@@ -33,6 +36,7 @@ class SimpleHandler : Thread(TAG) {
      */
     fun post(task: Runnable): SimpleHandler {
         taskQueue.add(task)
+        condition.await()
         return this
     }
 
@@ -45,7 +49,12 @@ class SimpleHandler : Thread(TAG) {
 
     override fun run() {
         while (alive.get()) {
-            taskQueue.poll()?.run()
+            val task: Runnable? = taskQueue.poll()
+            if (task == null) {
+                condition.signal()
+            } else {
+                task.run()
+            }
         }
         Log.i(TAG, "SimpleHandler: Terminated")
     }
@@ -54,6 +63,7 @@ class SimpleHandler : Thread(TAG) {
         private const val TAG = "SimpleHandler"
     }
 
+    //tailrec имеет смысл ТОЛЬКО ЕСЛИ рекурсия идёт ПОСЛЕДНИМ ДЕЙСТВИЕМ
     tailrec fun <T : View> View.findViewById(childViewId: Int): T? {
         for (child in (this as? ViewGroup)?.children.orEmpty()) {
             child.findViewById<T>(childViewId)?.let { return it }
