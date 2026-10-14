@@ -1,4 +1,4 @@
-# Android + Java/Kotlin Core
+# AndroidCore
 
 Learning notes and experiments covering Java, Kotlin and Android fundamentals.
 
