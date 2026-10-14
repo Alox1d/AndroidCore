@@ -1,9 +1,12 @@
 # Android + Java/Kotlin Core
 
-* Интерфейсы Comparable и Comparator
-* Коллекции
-* Generics
-* Лямбда-выражения
-* Многопоточность
-* IO и NIO
-* etc.
+Learning notes and experiments covering Java, Kotlin and Android fundamentals.
+
+## Topics
+
+- Comparable and Comparator interfaces
+- Collections
+- Generics
+- Lambda expressions
+- Multithreading
+- I/O and NIO
